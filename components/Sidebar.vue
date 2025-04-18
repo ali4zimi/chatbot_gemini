@@ -1,36 +1,46 @@
 <template>
-    <aside class="w-64 bg-white border-r shadow-sm p-4 rounded-tr-xl rounded-br-xl">
-        <h2 class="text-lg font-medium text-gray-700">Upload Files</h2>
-
-        <div
-            class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center text-sm text-gray-500 cursor-pointer hover:border-blue-500">
-            <input type="file" class="hidden" ref="fileInput" @change="handleFileUpload" />
-            <div @click="triggerFileInput">
-                Click to upload or drag & drop
-            </div>
-        </div>
-
+    <aside class="p-4 border-b md:border-b-0 md:border-r transition-all duration-200" :class="{
+        'bg-blue-50 border-blue-400': isDragging,
+        'bg-white border-gray-200': !isDragging
+    }" @dragenter.prevent="isDragging = true" @dragover.prevent @dragleave.prevent="isDragging = false"
+        @drop.prevent="handleDrop">
         <div>
-            <h3 class="text-sm font-semibold text-gray-600 mb-2">Files</h3>
-            <ul class="text-sm text-gray-700 space-y-1">
-                <li v-for="(file, index) in files" :key="index">{{ file.name }}</li>
-            </ul>
+            <h2 class="text-base font-semibold text-gray-700">Upload Files</h2>
+            <p class="text-sm text-gray-500">
+                Drag & drop or <span @click="triggerFileInput" class="underline cursor-pointer">click to upload</span>
+            </p>
         </div>
+
+        <input ref="fileInput" type="file" multiple class="hidden" @change="handleFileChange" />
+
+        <ul class="space-y-1 text-sm text-gray-800 mt-4 max-h-32 overflow-y-auto md:max-h-full">
+            <li v-for="(file, index) in files" :key="index" class="flex items-center gap-2">
+                📄 {{ file.name }}
+            </li>
+        </ul>
     </aside>
 </template>
+
 
 <script setup>
 import { ref } from 'vue'
 
+const isDragging = ref(false)
 const files = ref([])
 const fileInput = ref(null)
 
 const triggerFileInput = () => {
-    fileInput.value.click()
+    fileInput.value?.click()
 }
 
-const handleFileUpload = (event) => {
-    const uploaded = Array.from(event.target.files)
-    files.value.push(...uploaded)
+const handleFileChange = (e) => {
+    const newFiles = Array.from(e.target.files)
+    files.value.push(...newFiles)
+}
+
+const handleDrop = (e) => {
+    isDragging.value = false
+    const droppedFiles = Array.from(e.dataTransfer.files)
+    files.value.push(...droppedFiles)
 }
 </script>
