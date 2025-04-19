@@ -11,4 +11,8 @@ export default defineNuxtConfig({
       tailwindcss(),
     ],
   },
+
+  runtimeConfig: {
+    GOOGLE_GENAI_API_KEY: process.env.GOOGLE_GENAI_API_KEY,
+  }
 })
