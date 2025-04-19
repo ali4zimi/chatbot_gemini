@@ -4,10 +4,10 @@
             <Navbar @toggle-left="toggleLeftSidebar" @toggle-right="toggleRightSidebar" />
         </div>
 
-        <div class="w-full flex flex-1 relative overflow-hidden">
+        <div class="w-full flex relative overflow-hidden">
             <div class="left-sidebar"
                 :class="{ 'translate-x-0': showLeftSidebar, '-translate-x-full': !showLeftSidebar }">
-                <div class="h-full bg-gray-200 z-10 lg:rounded-2xl p-4">
+                <div class="h-full bg-gray-300 z-10 lg:rounded-2xl p-4">
                     <ChatList />
                 </div>
             </div>
@@ -20,7 +20,7 @@
 
             <div class="right-sidebar"
                 :class="{ 'translate-x-0': showRightSidebar, 'translate-x-full': !showRightSidebar }">
-                <div class="h-full bg-gray-200 z-10 lg:rounded-2xl p-4">
+                <div class="h-full bg-gray-300 z-10 lg:rounded-2xl p-4">
                     <FileManager />
                 </div>
             </div>
@@ -33,11 +33,11 @@
 @reference "tailwindcss";
 
 .left-sidebar {
-    @apply py-4 pl-4 overflow-y-auto fixed z-50 h-[calc(100vh-4rem)] transition-transform duration-300 ease-in-out w-[70%] lg:w-3/12 lg:relative lg:translate-x-0
+    @apply lg:py-4 lg:pl-4 overflow-y-auto fixed top-0 z-50 h-[calc(100vh-4rem)] transition-transform duration-300 ease-in-out w-[70%] lg:w-4/12 lg:relative lg:translate-x-0
 }
 
 .right-sidebar {
-    @apply py-4 pr-4 overflow-y-auto fixed z-50 h-[calc(100vh-4rem)] transition-transform duration-300 ease-in-out w-[70%] right-0 lg:w-4/12 lg:relative lg:translate-x-0
+    @apply lg:py-4 lg:pr-4 overflow-y-auto fixed top-0 z-50 h-[calc(100vh-4rem)] transition-transform duration-300 ease-in-out w-[70%] right-0 lg:w-4/12 lg:relative lg:translate-x-0
 }
 </style>
 
@@ -48,6 +48,7 @@ const showRightSidebar = ref(false)
 
 
 const toggleLeftSidebar = () => {
+    showRightSidebar.value = false;
     if (showLeftSidebar.value) {
         showLeftSidebar.value = false;
     } else {
@@ -56,6 +57,7 @@ const toggleLeftSidebar = () => {
 }
 
 const toggleRightSidebar = () => {
+    showLeftSidebar.value = false;
     if (showRightSidebar.value) {
         showRightSidebar.value = false;
     } else {
