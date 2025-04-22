@@ -13,7 +13,8 @@ export default defineEventHandler(async (event) => {
   event.node.res.setHeader("Access-Control-Allow-Origin", "*");
   // event.node.res.flushHeaders();
 
-  const ai = new GoogleGenAI({ apiKey: "AIzaSyAFFVLdGcuYs8ejqULh0NdL4u5cGl3RsUU" });
+
+  const ai = new GoogleGenAI({ apiKey: config.GOOGLE_GENAI_API_KEY });
   
   console.log("userInput", userInput);
   console.log("context", context);
